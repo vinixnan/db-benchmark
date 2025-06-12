@@ -4,7 +4,7 @@ print("# groupby-polars.py", flush=True)
 
 import os
 import gc
-import timeit
+from tracking import tracker
 import polars as pl
 from polars import col
 
@@ -17,6 +17,7 @@ solution = "polars"
 fun = ".groupby"
 cache = "TRUE"
 on_disk = "FALSE"
+timeit = tracker(solution, ver, fun)
 
 spill_dir = os.environ["SPILL_DIR"] + "/polars-groupby"
 os.makedirs(spill_dir, exist_ok=True)
@@ -307,5 +308,5 @@ print(ans.tail(3), flush=True)
 del ans
 
 print("grouping finished, took %0.3fs" % (timeit.default_timer() - task_init), flush=True)
-
+timeit.save_emissions()
 exit(0)

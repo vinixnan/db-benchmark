@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+VERSION=$1
 
 # install dependencies
 # sudo apt-get update -qq
@@ -7,12 +8,12 @@ set -e
 virtualenv polars/py-polars --python=python3
 source polars/py-polars/bin/activate
 
-python3 -m pip install --upgrade psutil polars numpy
+python3 -m pip install psutil polars==$VERSION numpy codecarbon
 
 # build
 deactivate
 
-./polars/upg-polars.sh
+#./polars/upg-polars.sh
 
 ./polars/ver-polars.sh
 

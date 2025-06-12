@@ -3,7 +3,7 @@
 import os
 import gc
 import sys
-import timeit
+from tracking import tracker
 import logging
 import pandas as pd
 from dataclasses import dataclass
@@ -31,6 +31,8 @@ task = "join"
 solution = "dask"
 fun = ".merge"
 cache = "TRUE"
+
+timeit = tracker(solution, ver, fun)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -253,3 +255,4 @@ if __name__ == '__main__':
         machine_type=machine_type,
         on_disk=on_disk,
     )
+    timeit.save_emissions()

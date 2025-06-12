@@ -2,7 +2,7 @@
 
 import os
 import sys
-import timeit
+from tracking import tracker
 import pandas as pd
 import dask as dk
 import dask.dataframe as dd
@@ -35,6 +35,8 @@ task = "groupby"
 solution = "dask"
 fun = ".groupby"
 cache = "TRUE"
+
+timeit = tracker(solution, ver, fun)
 
 def load_dataset(
     data_name: str,
@@ -334,3 +336,4 @@ if __name__ == '__main__':
         machine_type=machine_type,
         on_disk=on_disk,
     )
+    timeit.save_emissions()

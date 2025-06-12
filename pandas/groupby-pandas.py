@@ -5,7 +5,7 @@ print("# groupby-pandas.py", flush=True)
 import os
 import gc
 import sys
-import timeit
+from tracking import tracker
 import pandas as pd
 import pyarrow as pa
 
@@ -18,6 +18,7 @@ solution = "pandas"
 fun = ".groupby"
 cache = "TRUE"
 on_disk = "FALSE"
+timeit = tracker(solution, ver, fun)
 
 data_name = os.environ['SRC_DATANAME']
 machine_type = os.environ['MACHINE_TYPE']
@@ -312,5 +313,5 @@ print(ans.tail(3), flush=True)
 del ans
 
 print("grouping finished, took %0.fs" % (timeit.default_timer()-task_init), flush=True)
-
+timeit.save_emissions()
 exit(0)

@@ -4,7 +4,7 @@ print("# join-polars.py", flush=True)
 
 import os
 import gc
-import timeit
+from tracking import tracker
 import polars as pl
 
 exec(open("./_helpers/helpers.py").read())
@@ -16,6 +16,8 @@ solution = "polars"
 fun = ".join"
 cache = "TRUE"
 on_disk = "FALSE"
+
+timeit = tracker(solution, ver, fun)
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
@@ -221,5 +223,5 @@ print(ans.tail(3), flush=True)
 del ans
 
 print("joining finished, took %0.fs" % (timeit.default_timer() - task_init), flush=True)
-
+timeit.save_emissions()
 exit(0)
