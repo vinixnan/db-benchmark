@@ -19,8 +19,8 @@ pidof java > /dev/null 2>&1 && echo "# Benchmark run $BATCH aborted. java is run
 source ./clickhouse/ch.sh
 ch_installed && ch_active && ch_stop
 
-IGNORE_SWAP=true
-MACHINE_TYPE='c6id.metal'
+export IGNORE_SWAP=true
+export MACHINE_TYPE='c6id.metal'
 
 if [[ $IGNORE_SWAP == true ]]
 then

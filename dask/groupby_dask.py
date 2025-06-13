@@ -2,6 +2,8 @@
 
 import os
 import sys
+util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
+sys.path.append(util_path)
 from tracking import tracker
 import pandas as pd
 import dask as dk
@@ -72,7 +74,7 @@ def load_dataset(
     return x
 
 class QueryOne(Query):
-    question = "sum v1 by id1"
+    question = timeit.question ="sum v1 by id1"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -85,7 +87,7 @@ class QueryOne(Query):
         return [ans.v1.sum()]
 
 class QueryTwo(Query):
-    question = "sum v1 by id1:id2"
+    question = timeit.question ="sum v1 by id1:id2"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -98,7 +100,7 @@ class QueryTwo(Query):
         return [ans.v1.sum()]
 
 class QueryThree(Query):
-    question = "sum v1 mean v3 by id3"
+    question = timeit.question ="sum v1 mean v3 by id3"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -111,7 +113,7 @@ class QueryThree(Query):
         return [ans.v1.sum(), ans.v3.sum()]
 
 class QueryFour(Query):
-    question = "mean v1:v3 by id4"
+    question = timeit.question ="mean v1:v3 by id4"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -124,7 +126,7 @@ class QueryFour(Query):
         return [ans.v1.sum(), ans.v2.sum(), ans.v3.sum()]
 
 class QueryFive(Query):
-    question = "sum v1:v3 by id6"
+    question = timeit.question ="sum v1:v3 by id6"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -137,7 +139,7 @@ class QueryFive(Query):
         return [ans.v1.sum(), ans.v2.sum(), ans.v3.sum()]
 
 class QuerySix(Query):
-    question = "median v3 sd v3 by id4 id5"
+    question = timeit.question ="median v3 sd v3 by id4 id5"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -150,7 +152,7 @@ class QuerySix(Query):
         return [ans['v3']['median'].sum(), ans['v3']['std'].sum()]
 
 class QuerySeven(Query):
-    question = "max v1 - min v2 by id3"
+    question = timeit.question ="max v1 - min v2 by id3"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -164,7 +166,7 @@ class QuerySeven(Query):
         return [ans['range_v1_v2'].sum()]
 
 class QueryEight(Query):
-    question = "largest two v3 by id6"
+    question = timeit.question ="largest two v3 by id6"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -178,7 +180,7 @@ class QueryEight(Query):
         return [ans['v3'].sum()]
 
 class QueryNine(Query):
-    question = "regression v1 v2 by id2 id4"
+    question = timeit.question ="regression v1 v2 by id2 id4"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:
@@ -191,7 +193,7 @@ class QueryNine(Query):
         return [ans['r2'].sum()]
 
 class QueryTen(Query):
-    question = "sum v3 count by id1:id6"
+    question = timeit.question ="sum v3 count by id1:id6"
 
     @staticmethod
     def query(x: dd.DataFrame) -> dd.DataFrame:

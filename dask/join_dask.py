@@ -3,6 +3,8 @@
 import os
 import gc
 import sys
+util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
+sys.path.append(util_path)
 from tracking import tracker
 import logging
 import pandas as pd
@@ -41,7 +43,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class QueryOne(Query):
-    question = "small inner on int"
+    question = timeit.question ="small inner on int"
 
     @staticmethod
     def query(
@@ -58,7 +60,7 @@ class QueryOne(Query):
 
 
 class QueryTwo(Query):
-    question = "medium inner on int"
+    question = timeit.question ="medium inner on int"
 
     @staticmethod
     def query(
@@ -74,7 +76,7 @@ class QueryTwo(Query):
         return [ans['v1'].sum(), ans['v2'].sum()]
 
 class QueryThree(Query):
-    question = "medium outer on int"
+    question = timeit.question ="medium outer on int"
 
     @staticmethod
     def query(
@@ -90,7 +92,7 @@ class QueryThree(Query):
         return [ans['v1'].sum(), ans['v2'].sum()]
 
 class QueryFour(Query):
-    question = "medium inner on factor"
+    question = timeit.question ="medium inner on factor"
 
     @staticmethod
     def query(
@@ -106,7 +108,7 @@ class QueryFour(Query):
         return [ans['v1'].sum(), ans['v2'].sum()]
 
 class QueryFive(Query):
-    question = "big inner on int"
+    question = timeit.question ="big inner on int"
 
     @staticmethod
     def query(

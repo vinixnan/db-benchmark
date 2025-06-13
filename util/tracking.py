@@ -1,6 +1,7 @@
-from codecarbon import EmissionsTracker
+from codecarbon import OfflineEmissionsTracker
 import timeit
 import json
+
 
 class tracker():
     def __init__(self, framework_name, version, benchmark_name):
@@ -13,19 +14,19 @@ class tracker():
         self.emissions_results['benchmark_file_name'] = benchmark_name
         self.filename = f"emissions_results_{framework_name}_{version}_{benchmark_name}.json"
         self.counter = 0
+        self.question = None
 
     def default_timer(self):
-        global question
         time = timeit.default_timer()
         self.counter += 1
         if not self.opened:
-            self.tracker = EmissionsTracker()
+            self.tracker = OfflineEmissionsTracker(country_iso_code="BRA", save_to_file=False)
             self.opened = True
             self.tracker.start()
         else:
             emissions = self.tracker.stop()
             self.opened = False
-            self.add_emissions(question, emissions)
+            self.add_emissions(self.question, emissions)
         return time
     
     def save_emissions(self):

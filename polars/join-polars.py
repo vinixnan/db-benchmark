@@ -4,6 +4,9 @@ print("# join-polars.py", flush=True)
 
 import os
 import gc
+import sys
+util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
+sys.path.append(util_path)
 from tracking import tracker
 import polars as pl
 
@@ -92,7 +95,7 @@ in_rows = x.collect().shape[0]
 task_init = timeit.default_timer()
 print("joining...", flush=True)
 
-question = "small inner on int" # q1
+question = timeit.question ="small inner on int" # q1
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.join(small, on="id1").collect()
@@ -118,7 +121,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "medium inner on int" # q2
+question = timeit.question ="medium inner on int" # q2
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.join(medium, on="id2").collect()
@@ -144,7 +147,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "medium outer on int" # q3
+question = timeit.question ="medium outer on int" # q3
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.join(medium, how="left", on="id2").collect()
@@ -170,7 +173,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "medium inner on factor" # q4
+question = timeit.question ="medium inner on factor" # q4
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.join(medium, on="id5").collect()
@@ -196,7 +199,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "big inner on int" # q5
+question = timeit.question ="big inner on int" # q5
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.join(big, on="id3").collect()

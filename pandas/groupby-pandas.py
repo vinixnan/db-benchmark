@@ -5,6 +5,8 @@ print("# groupby-pandas.py", flush=True)
 import os
 import gc
 import sys
+util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
+sys.path.append(util_path)
 from tracking import tracker
 import pandas as pd
 import pyarrow as pa
@@ -49,7 +51,7 @@ print(len(x.index), flush=True)
 task_init = timeit.default_timer()
 print("grouping...", flush=True)
 
-question = "sum v1 by id1" # q1
+question = timeit.question ="sum v1 by id1" # q1
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby('id1', as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'sum'})
@@ -75,7 +77,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "sum v1 by id1:id2" # q2
+question = timeit.question ="sum v1 by id1:id2" # q2
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby(['id1','id2'], as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'sum'})
@@ -101,7 +103,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "sum v1 mean v3 by id3" # q3
+question = timeit.question ="sum v1 mean v3 by id3" # q3
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby('id3', as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'sum', 'v3':'mean'})
@@ -127,7 +129,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "mean v1:v3 by id4" # q4
+question = timeit.question ="mean v1:v3 by id4" # q4
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby('id4', as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'mean', 'v2':'mean', 'v3':'mean'})
@@ -153,7 +155,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "sum v1:v3 by id6" # q5
+question = timeit.question ="sum v1:v3 by id6" # q5
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby('id6', as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'sum', 'v2':'sum', 'v3':'sum'})
@@ -179,7 +181,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "median v3 sd v3 by id4 id5" # q6
+question = timeit.question ="median v3 sd v3 by id4 id5" # q6
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby(['id4','id5'], as_index=False, sort=False, observed=True, dropna=False).agg({'v3': ['median','std']})
@@ -205,7 +207,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "max v1 - min v2 by id3" # q7
+question = timeit.question ="max v1 - min v2 by id3" # q7
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby('id3', as_index=False, sort=False, observed=True, dropna=False).agg({'v1':'max', 'v2':'min'}).assign(range_v1_v2=lambda x: x['v1']-x['v2'])[['id3','range_v1_v2']]
@@ -231,7 +233,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "largest two v3 by id6" # q8
+question = timeit.question ="largest two v3 by id6" # q8
 gc.collect()
 t_start = timeit.default_timer()
 ans = x[~x['v3'].isna()][['id6','v3']].sort_values('v3', ascending=False).groupby('id6', as_index=False, sort=False, observed=True, dropna=False).head(2)
@@ -259,7 +261,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "regression v1 v2 by id2 id4" # q9
+question = timeit.question ="regression v1 v2 by id2 id4" # q9
 #corr().iloc[0::2][['v2']]**2 # on 1e8,k=1e2 slower, 76s vs 47s
 gc.collect()
 t_start = timeit.default_timer()
@@ -286,7 +288,7 @@ print(ans.head(3), flush=True)
 print(ans.tail(3), flush=True)
 del ans
 
-question = "sum v3 count by id1:id6" # q10
+question = timeit.question ="sum v3 count by id1:id6" # q10
 gc.collect()
 t_start = timeit.default_timer()
 ans = x.groupby(['id1','id2','id3','id4','id5','id6'], as_index=False, sort=False, observed=True, dropna=False).agg({'v3':'sum', 'v1':'size'})
