@@ -4,7 +4,10 @@ print("# join-datafusion.py", flush=True)
 
 import os
 import gc
-import timeit
+import sys
+util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
+sys.path.append(util_path)
+from tracking import tracker
 import datafusion as df
 from datafusion import functions as f
 from datafusion import col
@@ -31,6 +34,8 @@ fun = ".join"
 cache = "TRUE"
 on_disk = "FALSE"
 
+timeit = tracker(solution, ver, fun)
+
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
 spill_dir = os.environ["SPILL_DIR"] + "/datafusion-join"
@@ -45,10 +50,7 @@ if len(src_jn_y) != 3:
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
 scale_factor = data_name.replace("J1_","")[:4].replace("_", "")
 on_disk = 'FALSE'
-if float(scale_factor) >= 1e10:
-    on_disk = 'TRUE'
-elif (machine_type == 'c6id.4xlarge' and float(scale_factor) >= 1e9):
-    on_disk = 'TRUE'
+
 
 
 ctx = df.SessionContext()
@@ -76,7 +78,7 @@ print(large_data.num_rows, flush=True)
 task_init = timeit.default_timer()
 print("joining...", flush=True)
 
-question = "small inner on int" # q1
+question = timeit.question = "small inner on int" # q1
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT x.id1, x.id2, x.id3, x.id4 as xid4, small.id4 as smallid4, x.id5, x.id6, x.v1, small.v2 FROM x INNER JOIN small ON x.id1 = small.id1").collect()
@@ -105,7 +107,7 @@ write_log(task=task, data=data_name, in_rows=x_data.num_rows, question=question,
 del ans
 gc.collect()
 
-question = "medium inner on int" # q2
+question = timeit.question = "medium inner on int" # q2
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medium.id4 as mediumid4, x.id5 as xid5, medium.id5 as mediumid5, x.id6, x.v1, medium.v2 FROM x INNER JOIN medium ON x.id2 = medium.id2").collect()
@@ -134,7 +136,7 @@ write_log(task=task, data=data_name, in_rows=x_data.num_rows, question=question,
 del ans
 gc.collect()
 
-question = "medium outer on int" # q3
+question = timeit.question = "medium outer on int" # q3
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medium.id4 as mediumid4, x.id5 as xid5, medium.id5 as mediumid5, x.id6, x.v1, medium.v2 FROM x LEFT JOIN medium ON x.id2 = medium.id2").collect()
@@ -163,7 +165,7 @@ write_log(task=task, data=data_name, in_rows=x_data.num_rows, question=question,
 del ans
 gc.collect()
 
-question = "medium inner on factor" # q4
+question = timeit.question = "medium inner on factor" # q4
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT x.id1 as xid1, medium.id1 as mediumid1, x.id2, x.id3, x.id4 as xid4, medium.id4 as mediumid4, x.id5 as xid5, medium.id5 as mediumid5, x.id6, x.v1, medium.v2 FROM x JOIN medium ON x.id5 = medium.id5").collect()
@@ -192,7 +194,7 @@ write_log(task=task, data=data_name, in_rows=x_data.num_rows, question=question,
 del ans
 gc.collect()
 
-question = "big inner on int" # q5
+question = timeit.question = "big inner on int" # q5
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT x.id1 as xid1, large.id1 as largeid1, x.id2 as xid2, large.id2 as largeid2, x.id3, x.id4 as xid4, large.id4 as largeid4, x.id5 as xid5, large.id5 as largeid5, x.id6 as xid6, large.id6 as largeid6, x.v1, large.v2 FROM x JOIN large ON x.id3 = large.id3").collect()

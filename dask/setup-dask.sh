@@ -2,11 +2,11 @@
 set -e
 VERSION=$1
 
-virtualenv dask/py-dask$VERSION --python=python3
+virtualenv dask/py-dask --python=python3
 source dask/py-dask/bin/activate
 
 # install binaries
-python3 -m pip install "dask[complete]==$VERSION codecarbon"
+python3 -m pip install dask[complete]==$VERSION codecarbon
 
 # check
 # python3
@@ -17,4 +17,4 @@ python3 -m pip install "dask[complete]==$VERSION codecarbon"
 
 deactivate
 
-./dask/ver-dask.sh
+#./dask/ver-dask.sh

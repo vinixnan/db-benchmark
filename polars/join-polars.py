@@ -37,22 +37,22 @@ on_disk = 'TRUE' if (machine_type == "c6id.4xlarge" and float(scale_factor) >= 1
 print("loading datasets " + data_name + ", " + y_data_name[0] + ", " + y_data_name[2] + ", " + y_data_name[2], flush=True)
 
 with pl.StringCache():
-  x = (pl.read_csv(src_jn_x, schema_overrides={"id1":pl.Int32, "id2":pl.Int32, "id3":pl.Int32, "v1":pl.Float32}, rechunk=True)
+  x = (pl.read_csv(src_jn_x, schema_overrides={"id1":pl.String, "id2":pl.String, "id3":pl.String, "v1":pl.Float32}, rechunk=True)
        .with_columns(
-      pl.col(["id4", "id5", "id6"]).cast(pl.Categorical)
+      pl.col(["id4", "id5", "id6"]).cast(pl.String).cast(pl.Categorical)
   )
    )
-  small = pl.read_csv(src_jn_y[0], schema_overrides={"id1":pl.Int32, "v2":pl.Float32}, rechunk=True)
+  small = pl.read_csv(src_jn_y[0], schema_overrides={"id1":pl.String, "v2":pl.Float32}, rechunk=True)
   small = small.with_columns(
-    pl.col("id4").cast(pl.Categorical)
+    pl.col("id4").cast(pl.String).cast(pl.Categorical)
   )
-  medium = (pl.read_csv(src_jn_y[1], schema_overrides={"id1":pl.Int32, "id2":pl.Int32, "v2":pl.Float32}, rechunk=True)
+  medium = (pl.read_csv(src_jn_y[1], schema_overrides={"id1":pl.String, "id2":pl.String, "v2":pl.Float32}, rechunk=True)
            .with_columns(
-            pl.col(["id4", "id5"]).cast(pl.Categorical),
+            pl.col(["id4", "id5"]).cast(pl.String).cast(pl.Categorical),
   ))
-  big = (pl.read_csv(src_jn_y[2], schema_overrides={"id1":pl.Int32, "id2":pl.Int32, "id3":pl.Int32, "v2":pl.Float32}, rechunk=True)
+  big = (pl.read_csv(src_jn_y[2], schema_overrides={"id1":pl.String, "id2":pl.String, "id3":pl.String, "v2":pl.Float32}, rechunk=True)
          .with_columns(
-    pl.col(["id4", "id5", "id6"]).cast(pl.Categorical)
+    pl.col(["id4", "id5", "id6"]).cast(pl.String).cast(pl.Categorical)
   ))
 
 print(len(x), flush=True)

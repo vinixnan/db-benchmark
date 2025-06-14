@@ -66,7 +66,7 @@ def load_dataset(
     logger.info("Reading source: %s" % src_grp)
     x = dd.read_csv(
         src_grp,
-        dtype={"id1":"category","id2":"category","id3":"category","id4":"Int32","id5":"Int32","id6":"Int32","v1":"Int32","v2":"Int32","v3":"float64"},
+        dtype={"id1":"category","id2":"category","id3":"category","id4":"category","id5":"category","id6":"category","v1":"float64","v2":"float64","v3":"float64"},
         engine="pyarrow",
         **kwargs
     )
@@ -296,6 +296,7 @@ def run_task(
         machine_type=machine_type,
     )
 
+    '''
     runner.run_query(
         data_name=data_name,
         in_rows=in_rows,
@@ -311,6 +312,7 @@ def run_task(
         query=QueryNine,
         machine_type=machine_type,
     )
+    '''
 
     runner.run_query(
         data_name=data_name,

@@ -15,7 +15,7 @@ deactivate
 
 #./polars/upg-polars.sh
 
-./polars/ver-polars.sh
+#./polars/ver-polars.sh
 
 # check
 # source polars/py-polars/bin/activate

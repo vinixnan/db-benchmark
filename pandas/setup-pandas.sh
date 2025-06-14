@@ -16,7 +16,7 @@ python3 -m pip install pandas==$VERSION pyarrow psutil codecarbon
 
 deactivate
 
-./pandas/ver-pandas.sh
+#./pandas/ver-pandas.sh
 
 # # check
 # source pandas/py-pandas/bin/activate

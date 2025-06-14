@@ -73,7 +73,8 @@ timeit.question = "small inner on int" # q1
 gc.collect()
 t_start = timeit.default_timer()
 print("PRE")
-ans = x.merge(small, on='id1')
+ans = x.merge(small, on='id1', suffixes=['', '_y'])
+print(ans.columns, flush=True)
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -84,7 +85,7 @@ write_log(task=task, data=data_name, in_rows=x.shape[0], question=timeit.questio
 del ans
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(small, on='id1')
+ans = x.merge(small, on='id1', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -99,7 +100,7 @@ del ans
 timeit.question = "medium inner on int" # q2
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(medium, on='id2')
+ans = x.merge(medium, on='id2', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -110,7 +111,7 @@ write_log(task=task, data=data_name, in_rows=x.shape[0], question=timeit.questio
 del ans
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(medium, on='id2')
+ans = x.merge(medium, on='id2', suffixes=['', '_y'] )
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -125,7 +126,7 @@ del ans
 timeit.question = "medium outer on int" # q3
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(medium, how='left', on='id2')
+ans = x.merge(medium, how='left', on='id2', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -136,7 +137,7 @@ write_log(task=task, data=data_name, in_rows=x.shape[0], question=timeit.questio
 del ans
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(medium, how='left', on='id2')
+ans = x.merge(medium, how='left', on='id2', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -151,7 +152,7 @@ del ans
 timeit.question = "medium inner on factor" # q4
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(medium, on='id5')
+ans = x.merge(medium, on='id5', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -162,7 +163,7 @@ write_log(task=task, data=data_name, in_rows=x.shape[0], question=timeit.questio
 del ans
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(medium, on='id5')
+ans = x.merge(medium, on='id5', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -177,7 +178,7 @@ del ans
 timeit.question = "big inner on int" # q5
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(big, on='id3')
+ans = x.merge(big, on='id3', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()
@@ -188,7 +189,7 @@ write_log(task=task, data=data_name, in_rows=x.shape[0], question=timeit.questio
 del ans
 gc.collect()
 t_start = timeit.default_timer()
-ans = x.merge(big, on='id3')
+ans = x.merge(big, on='id3', suffixes=['', '_y'])
 print(ans.shape, flush=True)
 t = timeit.default_timer() - t_start
 m = memory_usage()

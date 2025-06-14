@@ -1,16 +1,17 @@
 #!/bin/bash
 set -e
+VERSION=$1
 
 virtualenv datafusion/py-datafusion --python=python3
 source datafusion/py-datafusion/bin/activate
 
-python3 -m pip install --upgrade psutil datafusion pandas
+python3 -m pip install --upgrade psutil datafusion==$VERSION pandas codecarbon
 
 # build
-deactivate
-./datafusion/upg-datafusion.sh
+#deactivate
+#./datafusion/upg-datafusion.sh
 
-./datafusion/ver-datafusion.sh
+#./datafusion/ver-datafusion.sh
 
 # check
 # source datafusion/py-datafusion/bin/activate

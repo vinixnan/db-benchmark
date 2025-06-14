@@ -4,7 +4,10 @@ print("# groupby-datafusion.py", flush=True)
 
 import os
 import gc
-import timeit
+import sys
+util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
+sys.path.append(util_path)
+from tracking import tracker
 import datafusion as df
 from datafusion import functions as f
 from datafusion import col
@@ -30,6 +33,8 @@ solution = "datafusion"
 fun = ".groupby"
 cache = "TRUE"
 on_disk = "FALSE"
+
+timeit = tracker(solution, ver, fun)
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
@@ -63,7 +68,7 @@ print(in_rows, flush=True)
 
 task_init = timeit.default_timer()
 
-question = "sum v1 by id1" # q1
+question = timeit.question = "sum v1 by id1" # q1
 gc.collect()
 
 t_start = timeit.default_timer()
@@ -94,7 +99,7 @@ del ans
 gc.collect()
 
 
-question = "sum v1 by id1:id2" # q2
+question = timeit.question = "sum v1 by id1:id2" # q2
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id1, id2, SUM(v1) AS v1 FROM x GROUP BY id1, id2").collect()
@@ -124,7 +129,7 @@ del ans
 gc.collect()
 
 
-question = "sum v1 mean v3 by id3" # q3
+question = timeit.question = "sum v1 mean v3 by id3" # q3
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id3, SUM(v1) AS v1, AVG(v3) AS v3 FROM x GROUP BY id3").collect()
@@ -153,7 +158,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 del ans
 gc.collect()
 
-question = "mean v1:v3 by id4" # q4
+question = timeit.question = "mean v1:v3 by id4" # q4
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id4, AVG(v1) AS v1, AVG(v2) AS v2, AVG(v3) AS v3 FROM x GROUP BY id4").collect()
@@ -183,7 +188,7 @@ del ans
 gc.collect()
 
 
-question = "sum v1:v3 by id6" # q5
+question = timeit.question = "sum v1:v3 by id6" # q5
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id6, SUM(v1) AS v1, SUM(v2) AS v2, SUM(v3) AS v3 FROM x GROUP BY id6").collect()
@@ -212,7 +217,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 del ans
 gc.collect()
 
-question = "median v3 sd v3 by id4 id5" # q6
+question = timeit.question = "median v3 sd v3 by id4 id5" # q6
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id4, id5, MEDIAN(v3) AS median_v3, STDDEV(v3) AS sd_v3 FROM x GROUP BY id4, id5").collect()
@@ -241,7 +246,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 del ans
 gc.collect()
 
-question = "max v1 - min v2 by id3" # q7
+question = timeit.question = "max v1 - min v2 by id3" # q7
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id3, MAX(v1) - MIN(v2) AS range_v1_v2 FROM x GROUP BY id3").collect()
@@ -271,7 +276,7 @@ del ans
 gc.collect()
 
 
-question = "largest two v3 by id6" # q8
+question = timeit.question = "largest two v3 by id6" # q8
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id6, v3 from (SELECT id6, v3, row_number() OVER (PARTITION BY id6 ORDER BY v3 DESC) AS row FROM x) t WHERE row <= 2").collect()
@@ -300,7 +305,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 del ans
 gc.collect()
 
-question = "regression v1 v2 by id2 id4" # q9
+question = timeit.question = "regression v1 v2 by id2 id4" # q9
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id2, id4, POW(CORR(v1, v2), 2) AS r2 FROM x GROUP BY id2, id4").collect()
@@ -329,7 +334,7 @@ write_log(task=task, data=data_name, in_rows=in_rows, question=question, out_row
 del ans
 gc.collect()
 
-question = "sum v3 count by id1:id6" # q10
+question = timeit.question = "sum v3 count by id1:id6" # q10
 gc.collect()
 t_start = timeit.default_timer()
 ans = ctx.sql("SELECT id1, id2, id3, id4, id5, id6, SUM(v3) as v3, COUNT(*) AS cnt FROM x GROUP BY id1, id2, id3, id4, id5, id6").collect()
