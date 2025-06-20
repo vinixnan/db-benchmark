@@ -8,7 +8,8 @@
 init = proc.time()[["elapsed"]]
 args = commandArgs(TRUE)
 N=as.numeric(args[1L]); K=as.integer(args[2L]); nas=as.integer(args[3L]); sort=as.integer(args[4L])
-stopifnot(N>=1e7, nas<=100L, nas>=0L, sort%in%c(0L,1L))
+#stopifnot(N>=1e7, nas<=100L, nas>=0L, sort%in%c(0L,1L))
+stopifnot(N >= 1e4, nas <= 100L, nas >= 0L, sort %in% c(0L, 1L))
 if (N > .Machine$integer.max) stop("no support for long vector in join-datagen yet")
 N = as.integer(N)
 
@@ -92,8 +93,8 @@ data_name = sprintf("J1_%s_%s_%s_%s", pretty_sci(N), "NA", nas, sort)
 cat(sprintf("Generate join data of %s rows\n", pretty_sci(N)))
 
 cat("Producing keys for LHS and RHS data\n")
-key1 = split_xlr(N/1e6)
-key2 = split_xlr(N/1e3)
+key1 = split_xlr(N/1e3)
+key2 = split_xlr(N/1e2)
 key3 = split_xlr(N)
 
 cat(sprintf("Producing LHS %s data from keys\n", pretty_sci(N)))
@@ -110,8 +111,8 @@ if (sort==1L) {
 }
 set(l, NULL, "v1", round(runif(nrow(l), max=100), 6))
 stopifnot(
-  uniqueN(l, by="id1")==N/1e6,
-  uniqueN(l, by="id2")==N/1e3,
+  uniqueN(l, by="id1")==N/1e3,
+  uniqueN(l, by="id2")==N/1e2,
   uniqueN(l, by="id3")==N
 )
 if (nas>0L) {
@@ -133,7 +134,7 @@ rm(l)
 
 rhs = c("x","r")
 r_data_name = join_to_tbls(data_name)
-n = N/1e6
+n = N/1e3
 cat(sprintf("Producing RHS %s data from keys\n", pretty_sci(n)))
 r1 = list(
   id1 = sample_all(unlist(key1[rhs], use.names=FALSE), n)
@@ -148,7 +149,7 @@ stopifnot(uniqueN(r1, by="id1")==n)
 cat(sprintf("Writing RHS %s data %s\n", pretty_sci(n), r_data_name[1L]))
 handle_batches(r1, r_data_name[1L])
 rm(r1)
-n = N/1e3
+n = N/1e2
 cat(sprintf("Producing RHS %s data from keys\n", pretty_sci(n)))
 r2 = list(
   id1 = sample_all(unlist(key1[rhs], use.names=FALSE), n),

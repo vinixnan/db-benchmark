@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 VERSION=$1
+PYTHON_VERSION=$2
 
 # install all dependencies
 # sudo apt-get update
@@ -12,7 +13,7 @@ virtualenv pandas/py-pandas --python=python3
 source pandas/py-pandas/bin/activate
 
 # install binaries
-python3 -m pip install pandas==$VERSION pyarrow psutil codecarbon
+python3 -m pip install pandas==$VERSION pyarrow psutil codecarbon pyinstrument
 
 deactivate
 

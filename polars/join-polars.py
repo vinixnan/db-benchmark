@@ -7,7 +7,8 @@ import gc
 import sys
 util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
 sys.path.append(util_path)
-from tracking import tracker
+#from tracking import tracker
+from facade import tracker
 import polars as pl
 
 exec(open("./_helpers/helpers.py").read())
@@ -20,7 +21,8 @@ fun = ".join"
 cache = "TRUE"
 on_disk = "FALSE"
 
-timeit = tracker(solution, ver, fun)
+execution = sys.argv[1]
+timeit = tracker(solution, ver, fun, execution)
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]

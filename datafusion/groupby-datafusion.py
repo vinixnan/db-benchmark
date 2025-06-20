@@ -34,7 +34,8 @@ fun = ".groupby"
 cache = "TRUE"
 on_disk = "FALSE"
 
-timeit = tracker(solution, ver, fun)
+execution = sys.argv[1]
+timeit = tracker(solution, ver, fun, execution)
 
 data_name = os.environ["SRC_DATANAME"]
 machine_type = os.environ["MACHINE_TYPE"]
@@ -365,5 +366,5 @@ gc.collect()
 
 
 print("grouping finished, took %0.fs" % (timeit.default_timer() - task_init), flush=True)
-
+timeit.save_emissions()
 exit(0)

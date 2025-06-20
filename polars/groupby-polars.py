@@ -7,7 +7,8 @@ import gc
 import sys
 util_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../util'))
 sys.path.append(util_path)
-from tracking import tracker
+#from tracking import tracker
+from facade import tracker
 import polars as pl
 from polars import col
 
@@ -20,7 +21,9 @@ solution = "polars"
 fun = ".groupby"
 cache = "TRUE"
 on_disk = "FALSE"
-timeit = tracker(solution, ver, fun)
+
+execution = sys.argv[1]
+timeit = tracker(solution, ver, fun, execution)
 
 spill_dir = os.environ["SPILL_DIR"] + "/polars-groupby"
 os.makedirs(spill_dir, exist_ok=True)

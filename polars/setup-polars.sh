@@ -8,7 +8,7 @@ VERSION=$1
 virtualenv polars/py-polars --python=python3
 source polars/py-polars/bin/activate
 
-python3 -m pip install psutil polars==$VERSION numpy codecarbon
+python3 -m pip install psutil polars==$VERSION numpy codecarbon pyinstrument
 
 # build
 deactivate
